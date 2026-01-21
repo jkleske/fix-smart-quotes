@@ -1,0 +1,30 @@
+{
+  "name": "fix-smart-quotes",
+  "version": "1.0.0",
+  "description": "Fix straight quotes to smart quotes in Markdown (DE/EN)",
+  "main": "index.js",
+  "bin": {
+    "fix-smart-quotes": "./index.js"
+  },
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "markdown",
+    "typography",
+    "quotes",
+    "smart-quotes",
+    "german",
+    "english",
+    "claude-code"
+  ],
+  "author": "Johannes Kleske",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkleske/fix-smart-quotes"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
