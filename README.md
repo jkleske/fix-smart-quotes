@@ -1,6 +1,6 @@
 # fix-smart-quotes
 
-Convert straight quotes to proper typographic ("smart") quotes in Markdown files.
+Convert straight quotes to proper typographic (“smart”) quotes in Markdown files.
 
 | Language | Before | After |
 |----------|--------|-------|
@@ -82,6 +82,8 @@ exit 0
 ```
 
 > **Note:** Claude Code passes file paths via stdin JSON, not environment variables. The wrapper script handles this.
+
+> **Important:** After changing settings.json, restart Claude Code. Hook configuration is cached at startup.
 
 ## Features
 
