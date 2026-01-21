@@ -4,8 +4,8 @@ Convert straight quotes to proper typographic ("smart") quotes in Markdown files
 
 | Language | Before | After |
 |----------|--------|-------|
-| German | `"text"` | `„text"` (U+201E / U+201C) |
-| English | `"text"` | `"text"` (U+201C / U+201D) |
+| German | `"text"` | `„text“` (U+201E / U+201C) |
+| English | `"text"` | `“text”` (U+201C / U+201D) |
 
 ## Why?
 
@@ -15,7 +15,7 @@ But for prose text, proper typography matters.
 
 **Example - before AI edit:**
 ```
-Sie sagte: „Das ist wichtig."
+Sie sagte: „Das ist wichtig.“
 ```
 
 **After AI edit:**
