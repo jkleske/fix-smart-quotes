@@ -9,21 +9,23 @@ Convert straight quotes to proper typographic ("smart") quotes in Markdown files
 
 ## Why?
 
-When AI coding assistants edit Markdown files, they often replace typographic quotes with straight quotes. This is intentional—straight quotes are safer for code and avoid encoding issues.
+Claude (including Claude.ai, Claude Desktop, and Claude Code) consistently uses straight quotes (`"`) instead of typographic quotes. This applies to both generated text and edits to existing content. The reason: straight quotes are universally compatible—they work in code, terminals, forms, and avoid encoding issues that can turn smart quotes into question marks.
 
-But for prose text, proper typography matters.
+Other AI assistants behave differently: ChatGPT and DeepSeek typically output smart quotes, while Claude and Gemini use straight quotes.
 
-**Example - before AI edit:**
+For prose and documentation, proper typography matters. German and English have distinct quote styles that convey professionalism and readability.
+
+**Example - text with proper German quotes:**
 ```
 Sie sagte: „Das ist wichtig.“
 ```
 
-**After AI edit:**
+**After Claude edits or generates text:**
 ```
 Sie sagte: "Das ist wichtig."
 ```
 
-This tool restores the correct quotes—either manually via CLI, or automatically after each Claude Code edit via hook.
+This tool restores the correct quotes—either manually via CLI, or automatically after each Claude edit via hook.
 
 ## Installation
 
