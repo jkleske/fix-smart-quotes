@@ -1,6 +1,6 @@
 {
   "name": "fix-smart-quotes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fix straight quotes to smart quotes in Markdown (DE/EN)",
   "main": "index.js",
   "bin": {
