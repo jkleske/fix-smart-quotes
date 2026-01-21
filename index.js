@@ -93,7 +93,7 @@ const KRAMDOWN_ATTR_PATTERN = /\{:[^}]*\}/g;
 const HTML_ATTR_PATTERN = /\b([a-z][a-z0-9-]*)\s*=\s*(["'])((?:(?!\2)[^\\]|\\.)*)(\2)/gi;
 
 // Markdown links: [text](url) and [text](url "title")
-const MD_LINK_PATTERN = /\[([^\]]*)\]\(([^)"'\s]+)(?:\s+(["'])([^\3]*)\3)?\)/g;
+const MD_LINK_PATTERN = /\[([^\]]*)\]\(([^)"'\s]+)(?:\s+(["'])([^"']*)\3)?\)/g;
 
 // Inline code: `...`
 const INLINE_CODE_PATTERN = /`[^`]+`/g;
@@ -238,6 +238,9 @@ function processFile(filePath) {
   // Create protector instance
   const protector = createProtector();
 
+  // Initialize quote state OUTSIDE processLine so it persists across lines
+  const state = { doubleQuoteOpen: true, singleQuoteOpen: true };
+
   // Process line with protect → replace → restore
   function processLine(line) {
     protector.reset();
@@ -250,8 +253,7 @@ function processFile(filePath) {
     processed = protector.protect(processed, HTML_ATTR_PATTERN);
     processed = protector.protect(processed, MD_LINK_PATTERN);
 
-    // REPLACE: Replace quotes with consistent state for whole line
-    const state = { doubleQuoteOpen: true, singleQuoteOpen: true };
+    // REPLACE: Replace quotes using shared state (persists across lines)
     processed = replaceQuotesInText(processed, state, quotes);
 
     // RESTORE: Restore protected areas
