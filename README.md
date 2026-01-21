@@ -51,26 +51,37 @@ fix-smart-quotes docs/*.md
 
 ## Claude Code Hook
 
-The primary use case: automatically fix quotes in files that Claude Code just edited or wrote. The hook runs **only** on files modified by Claude's Write or Edit tools—not on your entire project.
+Automatically fix quotes after Claude edits Markdown files.
 
-Add to `~/.claude/settings.json`:
+**1. Create wrapper script** at `~/.claude/hooks/fix-smart-quotes-wrapper.sh`:
+
+```bash
+#!/bin/bash
+INPUT=$(cat)
+FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
+[ -z "$FILE_PATH" ] && exit 0
+[[ ! "$FILE_PATH" =~ \.md$ ]] && exit 0
+[ ! -f "$FILE_PATH" ] && exit 0
+npx fix-smart-quotes "$FILE_PATH"
+exit 0
+```
+
+**2. Make executable:** `chmod +x ~/.claude/hooks/fix-smart-quotes-wrapper.sh`
+
+**3. Add to** `~/.claude/settings.json`:
 
 ```json
 {
   "hooks": {
     "PostToolUse": [{
       "matcher": "Write|Edit",
-      "hooks": [{
-        "type": "command",
-        "command": "npx fix-smart-quotes \"$FILE_PATH\"",
-        "timeout": 30
-      }]
+      "hooks": [{"type": "command", "command": "~/.claude/hooks/fix-smart-quotes-wrapper.sh", "timeout": 30}]
     }]
   }
 }
 ```
 
-This means: After Claude writes or edits a file, immediately run the quote fixer on that specific file.
+> **Note:** Claude Code passes file paths via stdin JSON, not environment variables. The wrapper script handles this.
 
 ## Features
 
