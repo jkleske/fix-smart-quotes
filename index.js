@@ -93,7 +93,8 @@ const KRAMDOWN_ATTR_PATTERN = /\{:[^}]*\}/g;
 const HTML_ATTR_PATTERN = /\b([a-z][a-z0-9-]*)\s*=\s*(["'])((?:(?!\2)[^\\]|\\.)*)(\2)/gi;
 
 // Markdown links: [text](url) and [text](url "title")
-const MD_LINK_PATTERN = /\[([^\]]*)\]\(([^)"'\s]+)(?:\s+(["'])([^"']*)\3)?\)/g;
+// Match entire construct to protect URLs and titles with any quote mix
+const MD_LINK_PATTERN = /\[([^\]]*)\]\([^)]+\)/g;
 
 // Inline code: `...`
 const INLINE_CODE_PATTERN = /`[^`]+`/g;
