@@ -51,7 +51,7 @@ fix-smart-quotes docs/*.md
 
 ## Claude Code Hook
 
-The primary use case: automatically fix quotes in files that Claude Code just edited. The hook runs **only** on files modified by Claude's Write or Edit tools—not on your entire project.
+The primary use case: automatically fix quotes in files that Claude Code just edited or wrote. The hook runs **only** on files modified by Claude's Write or Edit tools—not on your entire project.
 
 Add to `~/.claude/settings.json`:
 
