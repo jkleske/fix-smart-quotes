@@ -3,6 +3,11 @@
   "version": "1.1.0",
   "description": "Fix straight quotes to smart quotes in Markdown (DE/EN)",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "bin": {
     "fix-smart-quotes": "./index.js"
   },
