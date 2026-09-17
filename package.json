@@ -9,7 +9,7 @@
     "LICENSE"
   ],
   "bin": {
-    "fix-smart-quotes": "./index.js"
+    "fix-smart-quotes": "index.js"
   },
   "scripts": {
     "test": "node test/test.js"
@@ -27,7 +27,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jkleske/fix-smart-quotes"
+    "url": "git+https://github.com/jkleske/fix-smart-quotes.git"
   },
   "engines": {
     "node": ">=14"
