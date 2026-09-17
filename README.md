@@ -91,6 +91,30 @@ exit 0
 - **Protects technical syntax:** code blocks, inline code, HTML attributes, Liquid/Jekyll templates, Kramdown attributes, Markdown links
 - **Zero dependencies**
 
+## Apostrophes
+
+Apostrophes become `’` (U+2019) in both German and English files. A single mark is treated as an apostrophe between Latin-script letters, or after a Latin-script letter when no single quotation is open. Accented letters, including letters with combining accents, are supported. Apostrophes do not advance the file-wide quotation state, so subsequent single quotations still open and close correctly.
+
+The same apostrophe rules apply immediately after inline code, Markdown links, and closing brackets (`]` or `)`), including wikilinks; protected content stays unchanged.
+
+| Language | Before | After |
+|----------|--------|-------|
+| German | `Johannes' Auftrag` | `Johannes’ Auftrag` |
+| German | `geht's` | `geht’s` |
+| English | `the users' data and 'News'` | `the users’ data and ‘News’` |
+| German | `[[Johannes Kleske]]' Auftrag und 'News'.` | `[[Johannes Kleske]]’ Auftrag und ‚News‘.` |
+
+**Changed in 1.1.0:** In 1.0.x, mid-word apostrophes stayed straight. They now become U+2019, as do word-final apostrophes when no single quotation is open. Existing typographic single marks are classified by the same rules: U+2019 can be an apostrophe or an English closing quotation mark, depending on context. Running the tool again leaves these examples unchanged.
+
+The classification is a heuristic with these limits:
+
+- A word-final genitive apostrophe inside a single quotation is read as its closing mark.
+- An apostrophe at the start of a word, such as in `'90s`, is read as an opening quotation mark.
+- An opening single mark typed directly after a letter without a space is read as an apostrophe. In an English file, both marks in `He said'hello'` become U+2019.
+- If an opening quotation mark is hidden in a protected region, such as Markdown link text, a closing mark after a word is read as an apostrophe.
+
+Apostrophe detection is limited to Latin script; digits and other scripts are not treated as Latin letters. Unbalanced single quotations earlier in a file can affect later classification, so this is not a reliable repair for previously damaged text.
+
 ## License
 
 MIT
