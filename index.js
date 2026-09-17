@@ -137,9 +137,9 @@ function createProtector() {
   return { protect, restore, reset };
 }
 
-// Helper: Is this character a letter?
+// Limit apostrophe detection to Latin-script letters.
 function isLetter(char) {
-  return /[a-zA-ZäöüßÄÖÜ]/.test(char);
+  return /\p{Script=Latin}/u.test(char);
 }
 
 // Normalize typographic quotes to straight quotes
@@ -158,7 +158,6 @@ function replaceQuotesInText(text, state, quotes) {
 
   for (let k = 0; k < normalizedText.length; k++) {
     const currentChar = normalizedText[k];
-    const prevChar = k > 0 ? normalizedText[k - 1] : "";
     const nextChar = k < normalizedText.length - 1 ? normalizedText[k + 1] : "";
 
     if (currentChar === '"') {
@@ -170,12 +169,23 @@ function replaceQuotesInText(text, state, quotes) {
       }
       state.doubleQuoteOpen = !state.doubleQuoteOpen;
     } else if (currentChar === "'") {
-      // Straight single quote - ignore apostrophes within words
-      const isApostrophe = isLetter(prevChar) && isLetter(nextChar);
+      // Combining marks belong to the preceding letter (e.g., decomposed accents).
+      let previousIndex = k - 1;
+      while (previousIndex >= 0 && /\p{M}/u.test(normalizedText[previousIndex])) {
+        previousIndex--;
+      }
+      const prevChar = previousIndex >= 0 ? normalizedText[previousIndex] : "";
+      // Protected regions and closing brackets can also end a word.
+      const isWordFinal = isLetter(prevChar) || normalizedText.endsWith(PROTECT_END, k) ||
+        normalizedText[k - 1] === "]" || normalizedText[k - 1] === ")";
+      // true means the next quote opens: no single quotation is currently open.
+      const isApostrophe = (isWordFinal &&
+        (isLetter(nextChar) || state.singleQuoteOpen === true)) ||
+        (/[0-9]/.test(normalizedText[k - 1] || "") && isLetter(nextChar));
 
       if (isApostrophe) {
-        // Keep apostrophes unchanged (e.g., "it's", "We've")
-        processed += currentChar;
+        // Normalize apostrophes without advancing the quotation state.
+        processed += "\u2019";
       } else {
         // Replace as quote
         if (state.singleQuoteOpen) {
