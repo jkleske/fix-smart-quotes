@@ -207,6 +207,22 @@ const exactFixtures = [
     "(siehe \u201AAnhang\u2018)",                  // 22
     "[siehe \u201AAnhang\u2018]",
     ""
+  ].join("\n")],
+  ["apostrophe-digits-en.md", [
+    "---", "lang: en", "---",
+    "Trump 2.0\u2019s approach, 2024\u2019s numbers and \u2018News\u2019.", // 23
+    "5\u2018 tall",                                // 25: observed before U5
+    "6\u20192\u201C",
+    "\u201890s",
+    ""
+  ].join("\n")],
+  ["apostrophe-digits-de.md", [
+    "---", "lang: de", "---",
+    "Konflikt zwischen #103\u2019s Fixes und \u201AZitat\u2018.", // 24
+    "5\u201A tall",                                // 25: observed before U5
+    "6\u20182\u201E",
+    "\u201A90s",
+    ""
   ].join("\n")]
 ];
 

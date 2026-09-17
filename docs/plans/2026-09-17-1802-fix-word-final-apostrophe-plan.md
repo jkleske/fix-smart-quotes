@@ -41,6 +41,7 @@ The tool runs as a post-edit hook over entire files. Every run rewrites text nob
 - R6. Letter detection covers all Latin-script letters including accented ones, so `André' Text` behaves like `Jonas' Text`. It deliberately does not cover other scripts: in `他说'新闻'` the marks are a quotation, and v1.0.3 handles it correctly today.
 - R7. These limits are documented, not solved: a genitive inside a single quotation is read as the closing mark; an apostrophe at the start of a word (`'90s`) is read as an opening mark; an opening single mark typed directly after a letter without a space (`He said'hello'`) is read as an apostrophe; and when the opening mark of a quotation sits inside a protected region (for example inside link text), the closing mark after a word is read as an apostrophe.
 - R9. A single mark directly after a protected region (inline code, Markdown link) or after a closing bracket `]` or `)` counts as word-final: with no single quotation open it is an apostrophe (U+2019, no state change), and followed by a Latin letter it is an apostrophe regardless of state (`` `code`'s ``). This covers `[[Johannes Kleske]]' Auftrag`, `[Reuters](https://example.com)' Paywall` and `` `code`'s behavior ``. Added after code review on user decision; v1.0.3 and the first implementation pass both turn these into a quotation mark and invert every later single quotation in the file. Protected regions themselves stay unchanged.
+- R10. A single mark between a digit and a Latin letter is an apostrophe (`2024's`, `Trump 2.0's`, `#103's`), regardless of state. Added after a read-only dry run over 8,721 copied vault files found 238 such places where the mark was read as a quotation mark and inverted the file-wide state. A mark after a digit that is not followed by a letter (`5'`, `6'2"`) and a mark before a digit (`'90s`) keep their current handling.
 - R8. The README describes the new apostrophe behavior and the limits from R7. The version becomes 1.1.0, because R2 changes output for existing users.
 
 ### Scope Boundaries
@@ -119,6 +120,20 @@ The defect analysis with symptom, cause, test cases and counts lives outside thi
 22. Unchanged behavior, pinned: `(siehe 'Anhang')` and `[siehe 'Anhang']` still open and close
 
 **Verification:** `npm test` green; scenarios 1–16 unchanged.
+
+### U5. Apostrophe between digit and letter
+
+**Goal:** Close the dry-run finding (R10). Runs after U4.
+**Requirements:** R10, R4, R5.
+**Files:** `test/test.js`, one new fixture pair under `test/fixtures/`, `index.js` (single-quote branch only), `README.md`.
+**Approach:** Tests first. Extend the apostrophe check: previous character is an ASCII digit AND next character is a Latin letter. No other digit handling changes.
+**Test Scenarios** (exact output plus second run):
+
+23. English: `Trump 2.0's approach, 2024's numbers and 'News'.` → both `’s`, then `‘News’`
+24. German: `Konflikt zwischen #103's Fixes und 'Zitat'.` → `’s`, then `‚Zitat‘`
+25. Unchanged, pinned: `5' tall`, `6'2"` and `'90s` produce the same output as before this unit
+
+**Verification:** `npm test` green; scenarios 1–22 unchanged.
 
 ### U3. Documentation and version
 

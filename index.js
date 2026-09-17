@@ -179,8 +179,9 @@ function replaceQuotesInText(text, state, quotes) {
       const isWordFinal = isLetter(prevChar) || normalizedText.endsWith(PROTECT_END, k) ||
         normalizedText[k - 1] === "]" || normalizedText[k - 1] === ")";
       // true means the next quote opens: no single quotation is currently open.
-      const isApostrophe = isWordFinal &&
-        (isLetter(nextChar) || state.singleQuoteOpen === true);
+      const isApostrophe = (isWordFinal &&
+        (isLetter(nextChar) || state.singleQuoteOpen === true)) ||
+        (/[0-9]/.test(normalizedText[k - 1] || "") && isLetter(nextChar));
 
       if (isApostrophe) {
         // Normalize apostrophes without advancing the quotation state.

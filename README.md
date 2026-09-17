@@ -97,12 +97,15 @@ Apostrophes become `’` (U+2019) in both German and English files. A single mar
 
 The same apostrophe rules apply immediately after inline code, Markdown links, and closing brackets (`]` or `)`), including wikilinks; protected content stays unchanged.
 
+A mark between an ASCII digit and a Latin letter is also an apostrophe, even inside a single quotation.
+
 | Language | Before | After |
 |----------|--------|-------|
 | German | `Johannes' Auftrag` | `Johannes’ Auftrag` |
 | German | `geht's` | `geht’s` |
 | English | `the users' data and 'News'` | `the users’ data and ‘News’` |
 | German | `[[Johannes Kleske]]' Auftrag und 'News'.` | `[[Johannes Kleske]]’ Auftrag und ‚News‘.` |
+| English | `Trump 2.0's approach, 2024's numbers and 'News'.` | `Trump 2.0’s approach, 2024’s numbers and ‘News’.` |
 
 **Changed in 1.1.0:** In 1.0.x, mid-word apostrophes stayed straight. They now become U+2019, as do word-final apostrophes when no single quotation is open. Existing typographic single marks are classified by the same rules: U+2019 can be an apostrophe or an English closing quotation mark, depending on context. Running the tool again leaves these examples unchanged.
 
